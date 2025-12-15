@@ -993,29 +993,39 @@
         });
 
         // Package selection logic
-        let selectedPackage = null;
-        const packageData = {
-            1: {
-                name: "Package 1 – Basic Booking Website",
-                price: 1197.45,
-                devFee: 950,
-                toolsFee: 247.45
-            },
-            2: {
-                name: "Package 2 – Professional Booking System",
-                price: 1527.45,
-                devFee: 1280,
-                toolsFee: 247.45,
-                discounted: true
-            },
-            3: {
-                name: "Package 3 – Business Growth System",
-                price: 2007.45,
-                devFee: 1760,
-                toolsFee: 247.45,
-                discounted: true
-            }
-        };
+let selectedPackage = null;
+const packageData = {
+    1: {
+        name: "Package 1 – Basic Booking Website",
+        price: 1047.45,  // CHANGED: 800 + 247.45 = 1047.45
+        devFee: 800,     // CHANGED: From 950 to 800
+        toolsFee: 247.45,
+        originalPrice: 1047.45, // No discount
+        discountPercent: 0
+    },
+    2: {
+        name: "Package 2 – Professional Booking System",
+        price: 1247.45,  // CHANGED: 1000 + 247.45 = 1247.45
+        devFee: 1000,    // CHANGED: From 1280 to 1000
+        toolsFee: 247.45,
+        originalPrice: 1847.45, // 1600 + 247.45
+        discountPercent: 37.5,   // CHANGED: From 20% to 37.5%
+        discounted: true,
+        originalDevFee: 1600,
+        discountAmount: 600      // CHANGED: From 320 to 600
+    },
+    3: {
+        name: "Package 3 – Business Growth System",
+        price: 1622.45,  // CHANGED: 1375 + 247.45 = 1622.45
+        devFee: 1375,    // CHANGED: From 1760 to 1375
+        toolsFee: 247.45,
+        originalPrice: 2447.45, // 2200 + 247.45
+        discountPercent: 37.5,   // CHANGED: From 20% to 37.5%
+        discounted: true,
+        originalDevFee: 2200,
+        discountAmount: 825      // CHANGED: From 440 to 825
+    }
+};
 
         // Initialize package selection
         document.querySelectorAll('.select-package-btn').forEach(button => {
