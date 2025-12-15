@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Development Proposal | Pearl The Braider</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', 'Poppins', sans-serif;
+        }
+        
+        .proposal-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .proposal-card.selected {
+            border-color: #2563eb;
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.1), 0 10px 10px -5px rgba(37, 99, 235, 0.04);
+        }
+        
+        .signature-pad {
+            border: 2px dashed #d1d5db;
+            background-color: #f9fafb;
+            cursor: crosshair;
+        }
+        
+        .signature-pad:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        
+        .bank-details {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid #2563eb;
+        }
+        
+        .recommended-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        /* Style for the warning banner */
+        .warning-banner {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Warning Banner -->
+    <div class="warning-banner p-4 mb-6 no-print">
+        <div class="container mx-auto">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-amber-600 text-xl mr-3"></i>
+                    <div>
+                        <p class="font-semibold text-gray-800">Please download this document as PDF to keep a copy</p>
+                        <p class="text-sm text-gray-600">This link will become inactive after 2 weeks</p>
+                    </div>
+                </div>
+                <button id="downloadPdfBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center">
+                    <i class="fas fa-download mr-2"></i> Download as PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                    <div class="bg-white p-2 rounded">
+                        <img src="assets/pzycool-logo-dark.png" alt="Pzycool Design" class="h-12">
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Website Development Proposal</h1>
+                        <p class="text-gray-600">Prepared for: <span class="font-semibold text-blue-600">Pearl The Braider</span></p>
+                    </div>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <div class="inline-flex items-center px-4 py-2 bg-blue-50 rounded-full">
+                        <i class="fas fa-file-contract text-blue-600 mr-2"></i>
+                        <span class="text-sm font-medium text-gray-700">Proposal #PZY-2024-001</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Date: <span id="currentDate"></span></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8" id="proposalContent">
+        <!-- Proposal Header -->
+        <div class="mb-10">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-gray-900 mb-2">📌 Website Development Proposal</h2>
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-6 text-gray-600">
+                    <div class="flex items-center">
+                        <i class="fas fa-building mr-2"></i>
+                        <span><strong>Business:</strong> Pearl The Braider</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-globe mr-2"></i>
+                        <span><strong>Domain:</strong> pearlthebraider.co.uk</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-user-tie mr-2"></i>
+                        <span><strong>Prepared by:</strong> PzyCool (Full-Stack Engineer & UI/UX Designer)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-8 border-gray-300">
+        </div>
+
+        <!-- 1️⃣ Why a Website Is Important -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">1️⃣</span>
+                Why a Website Is Important for Your Business
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6 mb-6">
+                <p class="text-gray-700 mb-4">A professional website is not just for online presence — it is a <strong class="text-blue-700">business assistant that works 24/7</strong>.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-green-700 mb-3 flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i> Benefits
+                        </h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Clients can book without messaging back and forth</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>You look more professional and trustworthy</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>You control your availability, not the clients</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Less stress managing bookings manually</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Your business can scale as demand grows</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Mobile-friendly design means clients can book anytime, anywhere</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-amber-700 mb-3 flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Responsibilities of Having a Website
+                        </h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-info-circle text-amber-500 mt-1 mr-2"></i>
+                                <span>Domain & backend services require yearly renewal</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-info-circle text-amber-500 mt-1 mr-2"></i>
+                                <span>Website needs basic maintenance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-info-circle text-amber-500 mt-1 mr-2"></i>
+                                <span>New features as your business grows may require upgrades</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <p class="text-blue-800 font-medium">
+                        <i class="fas fa-hand-point-right mr-2"></i>
+                        The goal is to <strong>reduce stress</strong>, not add to it — and the system will be built with this in mind.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2️⃣ Design Philosophy -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">2️⃣</span>
+                Design Philosophy (How I'll Build It for You)
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-gray-700 mb-4">Your website will be:</p>
+                
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <i class="fas fa-mobile-alt text-blue-600 text-xl mr-3"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Mobile-first</h4>
+                            <p class="text-sm text-gray-600">(most clients book on phones)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <i class="fas fa-paint-brush text-blue-600 text-xl mr-3"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Clean, feminine, and professional</h4>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <i class="fas fa-route text-blue-600 text-xl mr-3"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Designed to guide users naturally toward booking</h4>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <i class="fas fa-expand-arrows-alt text-blue-600 text-xl mr-3"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Built with scalability in mind</h4>
+                            <p class="text-sm text-gray-600">(easy to add features later)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4 bg-pink-50 rounded-lg border border-pink-200">
+                    <p class="text-gray-800">
+                        <strong>Primary colour:</strong> <span class="font-bold text-pink-600">Soft Blush Pink (#F3B6C6)</span><br>
+                        <strong>Logo:</strong> Black/White (kept untouched)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3️⃣ Technology Stack -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">3️⃣</span>
+                Technology Stack (Full Stack)
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold text-blue-700 mb-3 text-lg">Frontend</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center">
+                                <i class="fab fa-react text-blue-500 mr-2"></i>
+                                <span>React (Vite)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-palette text-blue-500 mr-2"></i>
+                                <span>Tailwind CSS</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-mobile-alt text-blue-500 mr-2"></i>
+                                <span>Responsive UI/UX</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-green-700 mb-3 text-lg">Backend</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center">
+                                <i class="fab fa-node-js text-green-500 mr-2"></i>
+                                <span>Node.js</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-database text-green-500 mr-2"></i>
+                                <span>Supabase (Database, Authentication, Admin logic)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-purple-700 mb-3 text-lg">Infrastructure</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-server text-purple-500 mr-2"></i>
+                                <span>Hosting: Vercel</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-globe text-purple-500 mr-2"></i>
+                                <span>Domain & DNS: Namecheap</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-lock text-purple-500 mr-2"></i>
+                                <span>Free SSL (HTTPS)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-search text-purple-500 mr-2"></i>
+                                <span>Basic SEO setup</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-calendar-alt text-purple-500 mr-2"></i>
+                                <span>Google Maps & Calendar integration</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4️⃣ External Tools & Yearly Costs -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">4️⃣</span>
+                External Tools & Yearly Costs (Paid Separately)
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-gray-700 mb-4">These are required for the website to function and are <strong class="text-red-600">not my development fee</strong>.</p>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Tool</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Yearly Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-800">Domain (pearlthebraider.co.uk)</td>
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">£5.22</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-800">Premium DNS</td>
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">£2.23</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-800">Supabase Pro (Backend)</td>
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">~£240</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-800">Hosting (Vercel)</td>
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">£0</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-800">SSL Certificate</td>
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">£0</td>
+                            </tr>
+                            <tr class="bg-blue-50">
+                                <td class="px-4 py-3 text-sm font-bold text-gray-900">Total Estimated Tools Cost / Year</td>
+                                <td class="px-4 py-3 text-sm font-bold text-blue-700">~£247.45</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5️⃣ Development Packages -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">5️⃣</span>
+                Development Packages
+            </h3>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <!-- Package 1 -->
+                <div class="proposal-card bg-white rounded-xl shadow-lg overflow-hidden" data-package="1">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-900">🅰️ Package 1</h4>
+                                <h5 class="text-lg font-semibold text-gray-700">Basic Booking Website</h5>
+                            </div>
+                            <div class="bg-gray-100 text-gray-800 text-xs font-bold px-3 py-1 rounded-full">
+                                No discount
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4"><strong>Best for:</strong> Starting online presence</p>
+                        
+                        <div class="mb-6">
+                            <h6 class="font-semibold text-gray-800 mb-2">Includes:</h6>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Mobile-responsive website</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Services & fixed pricing</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Contact & gallery pages</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Basic booking form (no login)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Google Maps integration</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Basic SEO setup</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-600"><strong>Timeline:</strong> 3–4 weeks</p>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 pt-4">
+                            <p class="text-gray-600 text-sm mb-1">Development Fee:</p>
+                            <p class="text-2xl font-bold text-gray-900">£950</p>
+                            <p class="text-gray-600 text-sm">+ £247.45 (Tools) = <strong class="text-lg">£1,197.45</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 pb-6">
+                        <button class="select-package-btn w-full py-3 bg-gray-100 text-gray-800 hover:bg-gray-200 rounded-lg font-medium transition">
+                            Select This Package
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Package 2 (Recommended) -->
+                <div class="proposal-card bg-white rounded-xl shadow-lg overflow-hidden border-2 border-amber-300" data-package="2">
+                    <div class="absolute top-0 right-0">
+                        <div class="recommended-badge text-white text-xs font-bold px-3 py-1 rounded-bl-lg">
+                            ⭐ RECOMMENDED
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-900">🅱️ Package 2</h4>
+                                <h5 class="text-lg font-semibold text-gray-700">Professional Booking System</h5>
+                            </div>
+                            <div class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">
+                                20% Family Discount
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4"><strong>Best for:</strong> Stress-free booking & better control</p>
+                        
+                        <div class="mb-6">
+                            <h6 class="font-semibold text-gray-800 mb-2">Includes:</h6>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Everything in Package 1</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Client account signup & login</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Full booking system with availability calendar</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Monthly availability management</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Secure admin dashboard</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Booking management (view, cancel, update)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Cleaner booking flow (less client confusion)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Scalable backend structure</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-600"><strong>Timeline:</strong> 3–4 weeks</p>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 pt-4">
+                            <p class="text-gray-600 text-sm mb-1">Development Fee:</p>
+                            <div class="mb-2">
+                                <p class="text-gray-500 line-through text-sm">Standard price: £1,600</p>
+                                <p class="text-green-600 text-sm">Family discount (20%): –£320</p>
+                            </div>
+                            <p class="text-2xl font-bold text-gray-900">£1,280</p>
+                            <p class="text-gray-600 text-sm">+ £247.45 (Tools) = <strong class="text-lg">£1,527.45</strong></p>
+                            <p class="text-gray-500 text-xs mt-1">Since you’re family, the final price can be flexible and adjusted based on your specific requirements.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 pb-6">
+                        <button class="select-package-btn w-full py-3 bg-amber-500 text-white hover:bg-amber-600 rounded-lg font-medium transition">
+                            Select This Package
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Package 3 -->
+                <div class="proposal-card bg-white rounded-xl shadow-lg overflow-hidden" data-package="3">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-900">🅲 Package 3</h4>
+                                <h5 class="text-lg font-semibold text-gray-700">Business Growth System</h5>
+                            </div>
+                            <div class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">
+                                20% Family Discount
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4"><strong>Best for:</strong> Long-term growth & brand authority</p>
+                        
+                        <div class="mb-6">
+                            <h6 class="font-semibold text-gray-800 mb-2">Includes:</h6>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Everything in Package 2</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Advanced admin controls</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Client booking history</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Enhanced UI/UX flow</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Optimised performance & SEO structure</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Built-in readiness for future automation</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Priority support after launch</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-600"><strong>Timeline:</strong> 3–4 weeks</p>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 pt-4">
+                            <p class="text-gray-600 text-sm mb-1">Development Fee:</p>
+                            <div class="mb-2">
+                                <p class="text-gray-500 line-through text-sm">Standard price: £2,200</p>
+                                <p class="text-green-600 text-sm">Family discount (20%): –£440</p>
+                            </div>
+                            <p class="text-2xl font-bold text-gray-900">£1,760</p>
+                            <p class="text-gray-600 text-sm">+ £247.45 (Tools) = <strong class="text-lg">£2,007.45</strong></p>
+                            <p class="text-gray-500 text-xs mt-1">Since you’re family, the final price can be flexible and adjusted based on your specific requirements.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 pb-6">
+                        <button class="select-package-btn w-full py-3 bg-gray-100 text-gray-800 hover:bg-gray-200 rounded-lg font-medium transition">
+                            Select This Package
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Why Recommended Note -->
+            <div class="bg-amber-50 p-4 rounded-lg border border-amber-200 mb-8">
+                <p class="text-amber-800">
+                    <i class="fas fa-lightbulb text-amber-600 mr-2"></i>
+                    <strong>Why I recommend Package 2:</strong> This package reduces daily stress, prevents double bookings, and gives you full control without constant messaging.
+                </p>
+            </div>
+        </section>
+
+        <!-- 6️⃣ Phase 2 – Future Upgrade -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">6️⃣</span>
+                Phase 2 – Future Upgrade (Optional)
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <h4 class="text-xl font-bold text-gray-900 mb-3">🤖 AI Booking Automation (Discussed Separately)</h4>
+                <p class="text-gray-700 mb-4">This can be added later when needed:</p>
+                
+                <ul class="space-y-2 mb-4">
+                    <li class="flex items-start">
+                        <i class="fas fa-robot text-blue-500 mt-1 mr-2"></i>
+                        <span>AI-assisted availability input</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-brain text-blue-500 mt-1 mr-2"></i>
+                        <span>Smart booking logic</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-tasks text-blue-500 mt-1 mr-2"></i>
+                        <span>Reduced manual admin work</span>
+                    </li>
+                </ul>
+                
+                <div class="p-3 bg-gray-100 rounded-lg">
+                    <p class="text-gray-700">
+                        <i class="fas fa-exclamation-triangle text-amber-500 mr-2"></i>
+                        <strong>Not included</strong> in current packages.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7️⃣ Maintenance & Renewals -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">7️⃣</span>
+                Maintenance & Renewals
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <i class="fas fa-cog text-blue-500 mt-1 mr-3"></i>
+                        <span>I can manage domain & backend renewals for you</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-bell text-blue-500 mt-1 mr-3"></i>
+                        <span>You'll receive reminders before renewal dates</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-pound-sign text-blue-500 mt-1 mr-3"></i>
+                        <span>Renewals are paid by you (transparent)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-tools text-blue-500 mt-1 mr-3"></i>
+                        <span>Ongoing maintenance or new features are quoted separately</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 8️⃣ Project Timeline & Communication -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">8️⃣</span>
+                Project Timeline & Communication
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">Key Dates</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Start</p>
+                                    <p class="text-sm text-gray-600">After approval & initial deposit</p>
+                                </div>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Duration</p>
+                                    <p class="text-sm text-gray-600">3–4 weeks</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">I'll Provide:</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-chart-line text-green-500 mt-1 mr-2"></i>
+                                <span>Share progress updates</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-images text-green-500 mt-1 mr-2"></i>
+                                <span>Request images/videos when needed</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-comments text-green-500 mt-1 mr-2"></i>
+                                <span>Involve you at key stages</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9️⃣ Next Steps -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span class="bg-blue-100 text-blue-800 rounded-lg w-10 h-10 flex items-center justify-center mr-3">9️⃣</span>
+                Next Steps
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <ol class="space-y-4 mb-6">
+                    <li class="flex items-start">
+                        <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">1</div>
+                        <div>
+                            <p class="font-medium text-gray-800">Choose your preferred package</p>
+                            <p class="text-sm text-gray-600">Select from the options above</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">2</div>
+                        <div>
+                            <p class="font-medium text-gray-800">Confirm approval</p>
+                            <p class="text-sm text-gray-600">Complete the acceptance form below</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">3</div>
+                        <div>
+                            <p class="font-medium text-gray-800">Initial deposit is made</p>
+                            <p class="text-sm text-gray-600">70% upfront payment to begin work</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">4</div>
+                        <div>
+                            <p class="font-medium text-gray-800">Project begins immediately</p>
+                            <p class="text-sm text-gray-600">Work starts right after deposit confirmation</p>
+                        </div>
+                    </li>
+                </ol>
+                
+                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-700">
+                        If you'd like anything adjusted or explained further, I'm happy to help.<br>
+                        My goal is to build something that <strong class="text-blue-700">supports your business, not complicates it</strong> 🤍
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Terms Section -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-pound-sign text-blue-600 mr-3"></i>
+                Payment Terms
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">Payment Schedule</h4>
+                        <div class="space-y-4">
+                            <div class="p-3 bg-blue-50 rounded-lg">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-medium text-gray-800">Upfront Payment</span>
+                                    <span class="font-bold text-blue-700">70%</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Required to begin development</p>
+                            </div>
+                            
+                            <div class="p-3 bg-green-50 rounded-lg">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-medium text-gray-800">Final Payment</span>
+                                    <span class="font-bold text-green-700">30%</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Due within 2 weeks after project completion</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bank-details p-5 rounded-lg">
+                        <h4 class="font-bold text-gray-800 mb-3">Bank Transfer Details</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-gray-700">Bank:</span>
+                                <span class="font-medium">Monzo</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-700">Account Name:</span>
+                                <span class="font-medium">Prosper Arharhire</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-700">Sort Code:</span>
+                                <span class="font-mono font-medium">04-00-03</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-700">Account Number:</span>
+                                <span class="font-mono font-medium">74234649</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-3">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Please use your business name as reference when making payment
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Acceptance Form -->
+        <section class="mb-12" id="acceptanceForm">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-file-signature text-blue-600 mr-3"></i>
+                Acceptance & Signature
+            </h3>
+            
+            <div class="bg-white rounded-xl shadow p-6">
+                <form id="proposalForm">
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2" for="clientName">
+                                Client Name *
+                            </label>
+                            <input type="text" id="clientName" name="clientName" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2" for="clientEmail">
+                                Email Address *
+                            </label>
+                            <input type="email" id="clientEmail" name="clientEmail" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2" for="clientPhone">
+                                Phone Number
+                            </label>
+                            <input type="tel" id="clientPhone" name="clientPhone" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="+44 7900 286943">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2" for="selectedPackage">
+                                Selected Package *
+                            </label>
+                            <div class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50" id="selectedPackageDisplay">
+                                <span class="text-gray-500">Please select a package above</span>
+                            </div>
+                            <input type="hidden" id="selectedPackage" name="selectedPackage" required>
+                            <input type="hidden" id="packagePrice" name="packagePrice">
+                        </div>
+                    </div>
+                    
+                    <!-- Signature Section -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2">
+                            Digital Signature *
+                        </label>
+                        <p class="text-sm text-gray-600 mb-3">Draw your signature in the box below</p>
+                        
+                        <div class="border rounded-lg overflow-hidden">
+                            <canvas id="signaturePad" class="signature-pad w-full h-48"></canvas>
+                        </div>
+                        
+                        <div class="flex justify-between mt-3">
+                            <button type="button" id="clearSignature" class="px-4 py-2 text-sm text-gray-700 hover:text-gray-900">
+                                <i class="fas fa-eraser mr-1"></i> Clear Signature
+                            </button>
+                            <div class="text-sm text-gray-500">
+                                Signature will be saved with your acceptance
+                            </div>
+                        </div>
+                        <input type="hidden" id="signatureData" name="signatureData">
+                    </div>
+                    
+                    <!-- Terms Agreement -->
+                    <div class="mb-6">
+                        <div class="flex items-start">
+                            <input type="checkbox" id="agreeTerms" name="agreeTerms" 
+                                   class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded focus:ring-blue-500" required>
+                            <label for="agreeTerms" class="text-gray-700">
+                                I hereby accept the terms of this proposal, including the payment schedule (70% upfront, 30% within 2 weeks after completion). I understand that the external tools cost of £247.45 is separate from the development fee and will be paid annually.
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" id="submitProposal" 
+                                class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center justify-center mx-auto transition duration-300">
+                            <i class="fas fa-paper-plane mr-3"></i>
+                            Submit Acceptance & Send
+                        </button>
+                        <p class="text-sm text-gray-500 mt-2">
+                            A copy will be sent to your email
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Confirmation Message (Hidden by default) -->
+        <div id="confirmationMessage" class="hidden bg-green-50 border border-green-200 rounded-xl p-8 text-center mb-10">
+            <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Proposal Accepted Successfully!</h3>
+            <p class="text-gray-700 mb-4">Your acceptance has been sent to the designer and a copy has been emailed to you.</p>
+            <p class="text-gray-600">You will receive a confirmation email with next steps shortly.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-white p-2 rounded">
+                            <img src="assets/pzycool-logo-dark.png" alt="Pzycool Design" class="h-10">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl">PzyCool</h3>
+                            <p class="text-gray-300">Full-Stack Engineer & UI/UX Designer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <p class="text-gray-300">© 2024 All rights reserved</p>
+                    <p class="text-sm text-gray-400 mt-1">Professional Web Development Services</p>
+                    <div class="mt-3">
+                        <p class="text-sm text-gray-400">
+                            <i class="fas fa-phone mr-1"></i> +44 07534962812 | 
+                            <i class="fas fa-envelope ml-3 mr-1"></i> prosperoa12345@gmail.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-GB', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Package selection logic
+        let selectedPackage = null;
+        const packageData = {
+            1: {
+                name: "Package 1 – Basic Booking Website",
+                price: 1197.45,
+                devFee: 950,
+                toolsFee: 247.45
+            },
+            2: {
+                name: "Package 2 – Professional Booking System",
+                price: 1527.45,
+                devFee: 1280,
+                toolsFee: 247.45,
+                discounted: true
+            },
+            3: {
+                name: "Package 3 – Business Growth System",
+                price: 2007.45,
+                devFee: 1760,
+                toolsFee: 247.45,
+                discounted: true
+            }
+        };
+
+        // Initialize package selection
+        document.querySelectorAll('.select-package-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.proposal-card');
+                const packageId = card.dataset.package;
+                
+                selectPackage(packageId);
+                
+                // Scroll to acceptance form
+                document.getElementById('acceptanceForm').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Select package function
+        function selectPackage(packageId) {
+            selectedPackage = packageId;
+            
+            // Update all cards
+            document.querySelectorAll('.proposal-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Highlight selected card
+            document.querySelector(`.proposal-card[data-package="${packageId}"]`).classList.add('selected');
+            
+            // Update form display
+            const packageInfo = packageData[packageId];
+            document.getElementById('selectedPackageDisplay').innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-gray-800">${packageInfo.name}</span>
+                    <span class="font-bold text-blue-700">£${packageInfo.price.toFixed(2)}</span>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">
+                    £${packageInfo.devFee.toFixed(2)} (Development) + £${packageInfo.toolsFee.toFixed(2)} (Tools)
+                </div>
+            `;
+            
+            document.getElementById('selectedPackage').value = packageInfo.name;
+            document.getElementById('packagePrice').value = packageInfo.price;
+        }
+
+        // Signature Pad
+        const canvas = document.getElementById('signaturePad');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Set canvas size
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        // Draw on canvas
+        canvas.addEventListener('mousedown', (e) => {
+            drawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', () => drawing = false);
+        canvas.addEventListener('mouseout', () => drawing = false);
+
+        // Touch support for mobile
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            drawing = true;
+            const rect = canvas.getBoundingClientRect();
+            [lastX, lastY] = [e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top];
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!drawing) return;
+            const rect = canvas.getBoundingClientRect();
+            drawTouch(e.touches[0], rect);
+        });
+
+        canvas.addEventListener('touchend', () => drawing = false);
+
+        function draw(e) {
+            if (!drawing) return;
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+            
+            // Save signature data
+            saveSignature();
+        }
+
+        function drawTouch(touch, rect) {
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            
+            [lastX, lastY] = [x, y];
+            
+            // Save signature data
+            saveSignature();
+        }
+
+        function saveSignature() {
+            document.getElementById('signatureData').value = canvas.toDataURL();
+        }
+
+        // Clear signature
+        document.getElementById('clearSignature').addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            document.getElementById('signatureData').value = '';
+        });
+
+        // PDF Download
+        document.getElementById('downloadPdfBtn').addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'pt', 'a4');
+            
+            // Add watermark
+            doc.setTextColor(200, 200, 200);
+            doc.setFontSize(60);
+            doc.text('PROPOSAL', 150, 300, { angle: 45 });
+            doc.setTextColor(0, 0, 0);
+            
+            // Capture content
+            const element = document.getElementById('proposalContent');
+            
+            // Show loading
+            const btn = document.getElementById('downloadPdfBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating PDF...';
+            btn.disabled = true;
+            
+            try {
+                // Create PDF
+                const canvasElement = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+                
+                const imgData = canvasElement.toDataURL('image/png');
+                const imgWidth = 595; // A4 width in points
+                const pageHeight = 842; // A4 height in points
+                const imgHeight = canvasElement.height * imgWidth / canvasElement.width;
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // Add footer with date
+                const totalPages = doc.internal.getNumberOfPages();
+                for(let i = 1; i <= totalPages; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.text(`Page ${i} of ${totalPages} - Generated on ${new Date().toLocaleDateString()}`, doc.internal.pageSize.width - 100, doc.internal.pageSize.height - 10);
+                }
+                
+                // Save PDF
+                doc.save(`Proposal_PearlTheBraider_${new Date().toISOString().split('T')[0]}.pdf`);
+                
+                // Show success message
+                showToast('PDF downloaded successfully!', 'success');
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showToast('Error generating PDF. Please try again.', 'error');
+            } finally {
+                // Restore button
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        // Form submission
+        document.getElementById('proposalForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate package selection
+            if (!selectedPackage) {
+                showToast('Please select a package first', 'error');
+                document.querySelector('.proposal-card[data-package="2"]').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                return;
+            }
+            
+            // Validate signature
+            if (!document.getElementById('signatureData').value) {
+                showToast('Please provide your signature', 'error');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitProposal');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate sending (in real implementation, use EmailJS or backend)
+            setTimeout(() => {
+                // Show confirmation
+                document.getElementById('proposalForm').classList.add('hidden');
+                document.getElementById('confirmationMessage').classList.remove('hidden');
+                
+                // Scroll to confirmation
+                document.getElementById('confirmationMessage').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Show success toast
+                showToast('Proposal accepted and sent successfully!', 'success');
+                
+                // In real implementation, you would:
+                // 1. Send email to prosperoa12345@gmail.com with all details
+                // 2. Send email to client's email
+                // 3. Store submission in database
+                
+                // For now, log the data
+                const formData = {
+                    clientName: document.getElementById('clientName').value,
+                    clientEmail: document.getElementById('clientEmail').value,
+                    clientPhone: document.getElementById('clientPhone').value,
+                    selectedPackage: document.getElementById('selectedPackage').value,
+                    packagePrice: document.getElementById('packagePrice').value,
+                    signature: document.getElementById('signatureData').value,
+                    timestamp: new Date().toISOString()
+                };
+                
+                console.log('Proposal submitted:', formData);
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+            }, 2000);
+        });
+
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            // Create toast
+            const toast = document.createElement('div');
+            toast.className = `toast-notification fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg text-white font-medium transform transition-all duration-300 ${
+                type === 'success' ? 'bg-green-600' : 
+                type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+            }`;
+            toast.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} mr-3"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-y-2');
+            }, 10);
+            
+            // Remove toast after 5 seconds
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // Initialize with Package 2 selected (recommended)
+        setTimeout(() => {
+            selectPackage('2');
+        }, 500);
+    </script>
+</body>
+</html>
