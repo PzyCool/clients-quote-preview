@@ -611,8 +611,6 @@
     <script>
         let selectedPackage = null;
         let hasDownloadedPdf = false;
-        let downloadedPdfDataUrl = '';
-        let downloadedPdfFileName = '';
         const EMAIL_CONFIG = {
             publicKey: 'HyOyuwlEH4xiaxxE0',
             serviceId: 'service_tx54fse',
@@ -676,9 +674,7 @@
                 selected_package: formData.selectedPackage,
                 total_price: formatNaira(Number(formData.packagePrice || 0)),
                 submitted_at: new Date(formData.timestamp).toLocaleString('en-NG'),
-                business_name: 'Shamchester Styles',
-                proposal_pdf: formData.proposalPdfData,
-                pdf_filename: formData.proposalPdfFileName
+                business_name: 'Shamchester Styles'
             };
 
             const clientTemplateParams = {
@@ -687,9 +683,7 @@
                 selected_package: formData.selectedPackage,
                 total_price: formatNaira(Number(formData.packagePrice || 0)),
                 owner_email: EMAIL_CONFIG.ownerEmail,
-                business_name: 'Shamchester Styles',
-                proposal_pdf: formData.proposalPdfData,
-                pdf_filename: formData.proposalPdfFileName
+                business_name: 'Shamchester Styles'
             };
 
             // EmailJS applies a strict rate limit (1 request/second), so send sequentially.
@@ -795,8 +789,6 @@
         function saveSignature() {
             document.getElementById('signatureData').value = canvas.toDataURL();
             hasDownloadedPdf = false;
-            downloadedPdfDataUrl = '';
-            downloadedPdfFileName = '';
             updateDownloadButtonState();
         }
 
@@ -804,8 +796,6 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             document.getElementById('signatureData').value = '';
             hasDownloadedPdf = false;
-            downloadedPdfDataUrl = '';
-            downloadedPdfFileName = '';
             updateDownloadButtonState();
         });
 
@@ -861,9 +851,7 @@
                     doc.text(`Page ${i} of ${totalPages} - Generated on ${new Date().toLocaleDateString()}`, doc.internal.pageSize.width - 180, doc.internal.pageSize.height - 10);
                 }
 
-                downloadedPdfFileName = `Proposal_ShamchesterStyles_${new Date().toISOString().split('T')[0]}.pdf`;
-                downloadedPdfDataUrl = doc.output('datauristring');
-                doc.save(downloadedPdfFileName);
+                doc.save(`Proposal_ShamchesterStyles_${new Date().toISOString().split('T')[0]}.pdf`);
                 hasDownloadedPdf = true;
                 showToast('PDF downloaded successfully', 'success');
                 document.getElementById('submitProposal').scrollIntoView({
@@ -905,15 +893,6 @@
                 return;
             }
 
-            if (!downloadedPdfDataUrl) {
-                showToast('PDF attachment missing. Please download the PDF again.', 'error');
-                document.getElementById('downloadPdfBtn').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-                return;
-            }
-
             const submitBtn = document.getElementById('submitProposal');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
@@ -926,8 +905,6 @@
                 selectedPackage: document.getElementById('selectedPackage').value,
                 packagePrice: document.getElementById('packagePrice').value,
                 signature: document.getElementById('signatureData').value,
-                proposalPdfData: downloadedPdfDataUrl,
-                proposalPdfFileName: downloadedPdfFileName,
                 timestamp: new Date().toISOString()
             };
 
